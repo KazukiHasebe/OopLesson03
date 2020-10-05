@@ -19,10 +19,13 @@ namespace Chapter4
                 new YearMonth(2058, 10)
             };
 
+            Console.WriteLine("問題4-2-2");
             Exercise2_2(ymCollection);
 
+            Console.WriteLine("\n問題4-2-4");
             Exercise2_4(ymCollection);
 
+            Console.WriteLine("\n問題4-2-5");
             Exercise2_5(ymCollection);
         }
 
