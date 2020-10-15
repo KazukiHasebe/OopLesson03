@@ -11,78 +11,65 @@ namespace Chapter7
     {
         static void Main(string[] args)
         {
-            ////リスト
-            //var employee = new List<Employee>()
-            //{
-            //    new Employee(100, "清水遼久"),
-            //    new Employee(112, "芹沢洋和"),
-            //    new Employee(125, "岩瀬奈央子"),
-            //    new Employee(143, "山田太郎"),
-            //    new Employee(148, "池田次郎"),
-            //    new Employee(152, "高田三郎"),
-            //    new Employee(155, "石川幸也"),
-            //    new Employee(161, "中沢信也"),
-            //};
+            var dict = new Dictionary<string, List<string>>();
+            bool loop = true;
 
-            ////Idが偶数のみディクショナリに変換する
-            //var employeeDict = employee.Where(emp => emp.Id % 2 == 0).ToDictionary(emp => emp.Id);
+            Console.WriteLine("**********************");
+            Console.WriteLine("* 辞書登録プログラム *");
+            Console.WriteLine("**********************");
 
-            //foreach (KeyValuePair<int, Employee> item in employeeDict)
-            //{
-            //    Console.WriteLine($"{item.Value.Id} {item.Value.Name}");
-            //}
-
-
-            //var dict = new Dictionary<MonthDay, string>
-            //{
-            //    {new MonthDay(3,5), "珊瑚の日" },
-            //    {new MonthDay(8,4), "箸の日" },
-            //    {new MonthDay(10,3), "登山の日" },
-            //};
-
-            //var md = new MonthDay(8, 4);
-            //var s = dict[md];
-            //Console.WriteLine(s);
-
-
-            //var lines = File.ReadAllLines("sample.txt");
-            //var we = new WordsExtractor(lines);
-            //foreach (var word in we.Extract())
-            //{
-            //    Console.WriteLine(word);
-            //}
-
-            DuplicateKeySample();
-        }
-
-        static public void DuplicateKeySample()
-        {
-            // ディクショナリの初期化
-            var dict = new Dictionary<string, List<string>>() {
-               { "PC", new List<string> { "パーソナル コンピュータ", "プログラム カウンタ", } },
-               { "CD", new List<string> { "コンパクト ディスク", "キャッシュ ディスペンサー", } },
-            };
-
-            // ディクショナリに追加
-            var key = "EC";
-            var value = "電子商取引";
-            if (dict.ContainsKey(key))
+            while (loop)
             {
-                dict[key].Add(value);
-            }
-            else
-            {
-                dict[key] = new List<string> { value };
-            }
+                Console.WriteLine("1. 登録　2. 内容を表示　3. 終了");
+                Console.Write(">");
+                int mode;
+                int.TryParse(Console.ReadLine(), out mode);
 
-            // ディクショナリの内容を列挙
-            foreach (var item in dict)
-            {
-                foreach (var term in item.Value)
+                switch (mode)
                 {
-                    Console.WriteLine("{0} : {1}", item.Key, term);
+                    case 1:
+                        Console.Write("KEYを入力：");
+                        string key = Console.ReadLine();
+                        Console.Write("VALUEを入力:");
+                        string value = Console.ReadLine();
+                        if (dict.ContainsKey(key))
+                        {
+                            dict[key].Add(value);
+                        }
+                        else
+                        {
+                            dict[key] = new List<string> { value };
+                        }
+                        Console.WriteLine("登録しました。\n");
+                        break;
+
+                    case 2:
+                        if (dict.Count == 0)
+                        {
+                            Console.WriteLine("内容が入っていません。\n");
+                        }
+                        else
+                        {
+                            foreach (var item in dict)
+                            {
+                                foreach (var term in item.Value)
+                                {
+                                    Console.WriteLine($"{item.Key} {term}");
+                                }
+                            }
+                            Console.WriteLine("内容表示しました。\n");
+                        }
+                        break;
+
+                    case 3:
+                        loop = false;
+                        Console.WriteLine("プログラムを終了します。");
+                        break;
+
+                    default:
+                        break;
                 }
             }
-        }
+        }   
     }
 }
