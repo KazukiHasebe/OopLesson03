@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,65 +13,63 @@ namespace Chapter7
     {
         static void Main(string[] args)
         {
-            var dict = new Dictionary<string, List<string>>();
-            bool loop = true;
+            //問題7-1
+            var text = "Cozy lummox gives smart squid who asks for job pen";
+            Exercise1_1(text);
+            Console.WriteLine();
 
-            Console.WriteLine("**********************");
-            Console.WriteLine("* 辞書登録プログラム *");
-            Console.WriteLine("**********************");
+            Exercise1_2(text);
+            Console.WriteLine();
 
-            while (loop)
+
+        }
+
+        static void Exercise1_1(string text)
+        {
+            var dict = new Dictionary<char, int>();
+            foreach (var item in text.ToUpper())
             {
-                Console.WriteLine("1. 登録　2. 内容を表示　3. 終了");
-                Console.Write(">");
-                int mode;
-                int.TryParse(Console.ReadLine(), out mode);
-
-                switch (mode)
+                if ('A' <= item && item <= 'Z')
                 {
-                    case 1:
-                        Console.Write("KEYを入力：");
-                        string key = Console.ReadLine();
-                        Console.Write("VALUEを入力:");
-                        string value = Console.ReadLine();
-                        if (dict.ContainsKey(key))
-                        {
-                            dict[key].Add(value);
-                        }
-                        else
-                        {
-                            dict[key] = new List<string> { value };
-                        }
-                        Console.WriteLine("登録しました。\n");
-                        break;
-
-                    case 2:
-                        if (dict.Count == 0)
-                        {
-                            Console.WriteLine("内容が入っていません。\n");
-                        }
-                        else
-                        {
-                            foreach (var item in dict)
-                            {
-                                foreach (var term in item.Value)
-                                {
-                                    Console.WriteLine($"{item.Key} {term}");
-                                }
-                            }
-                            Console.WriteLine("内容表示しました。\n");
-                        }
-                        break;
-
-                    case 3:
-                        loop = false;
-                        Console.WriteLine("プログラムを終了します。");
-                        break;
-
-                    default:
-                        break;
+                    if (dict.ContainsKey(item))
+                    {
+                        dict[item] += 1;
+                    }
+                    else
+                    {
+                        dict.Add(item, 1);
+                    }
                 }
             }
-        }   
+
+            foreach (var item in dict.OrderBy(x => x.Key))
+            {
+                Console.WriteLine($"'{item.Key}' : {item.Value}");
+            }
+        }
+
+        static void Exercise1_2(string text)
+        {
+            var dict = new SortedDictionary<char, int>();
+            foreach (var item in text.ToUpper())
+            {
+                if ('A' <= item && item <= 'Z')
+                {
+                    if (dict.ContainsKey(item))
+                    {
+                        dict[item] += 1;
+                    }
+                    else
+                    {
+                        dict[item] = 1;
+                    }
+                }
+            }
+
+            foreach (var item in dict)
+            {
+                Console.WriteLine($"'{item.Key}' : {item.Value}");
+            }
+        }
     }
 }
