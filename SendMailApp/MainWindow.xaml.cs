@@ -53,19 +53,11 @@ namespace SendMailApp
 
                 if (tbCc.Text != "")
                 {
-                    var cc = tbCc.Text.Split(',');
-                    foreach (var item in cc)
-                    {
-                        msg.CC.Add(item);
-                    }
+                    msg.CC.Add(tbCc.Text);
                 }
                 if (tbBcc.Text != "")
                 {
-                    var bcc = tbBcc.Text.Split(',');
-                    foreach (var item in bcc)
-                    {
-                        msg.Bcc.Add(item);
-                    }
+                    msg.Bcc.Add(tbBcc.Text);
                 }
 
                 sc.Host = "smtp.gmail.com"; //SMTPサーバの設定
@@ -74,7 +66,7 @@ namespace SendMailApp
                 sc.Credentials = new NetworkCredential("ojsinfosys01@gmail.com", "ojsInfosys2020");
 
                 //sc.Send(msg);   //送信
-                sc.SendMailAsync(msg);   //送信
+                sc.SendMailAsync(msg);
             }
             catch (Exception ex)
             {
