@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +23,72 @@ namespace SendMailApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        SmtpClient sc = new SmtpClient();
+
         public MainWindow()
         {
             InitializeComponent();
+            sc.SendCompleted += Sc_SendCompleted;
+        }
+
+        //送信完了イベント
+        private void Sc_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                MessageBox.Show("送信はキャンセルされました。");
+            }
+            else
+            {
+                MessageBox.Show(e.Error?.Message ?? "送信完了！");
+            }
+        }
+
+        //メール送信処理
+        private void btSend_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MailMessage msg = new MailMessage("ojsinfosys01@gmail.com", tbTo.Text, tbTitle.Text, tbBody.Text);
+
+                if (tbCc.Text != "")
+                {
+                    var cc = tbCc.Text.Split(',');
+                    foreach (var item in cc)
+                    {
+                        msg.CC.Add(item);
+                    }
+                }
+                if (tbBcc.Text != "")
+                {
+                    var bcc = tbBcc.Text.Split(',');
+                    foreach (var item in bcc)
+                    {
+                        msg.Bcc.Add(item);
+                    }
+                }
+
+                sc.Host = "smtp.gmail.com"; //SMTPサーバの設定
+                sc.Port = 587;
+                sc.EnableSsl = true;
+                sc.Credentials = new NetworkCredential("ojsinfosys01@gmail.com", "ojsInfosys2020");
+
+                //sc.Send(msg);   //送信
+                sc.SendMailAsync(msg);   //送信
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        //送信キャンセル処理
+        private void btCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (sc != null)
+            {
+                sc.SendAsyncCancel();
+            }
         }
     }
 }
