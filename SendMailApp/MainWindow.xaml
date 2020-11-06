@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SendMailApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="400" Width="600" Loaded="Window_Loaded">
     <Grid Background="AliceBlue">
         <!--行-->
         <Grid.RowDefinitions>
@@ -22,11 +22,11 @@
             <ColumnDefinition Width="90*"/>
         </Grid.ColumnDefinitions>
         <!--ラベル-->
-        <TextBlock Grid.Row="0" Text="件名：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        <TextBlock Grid.Row="1" Text="To：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        <TextBlock Grid.Row="2" Text="Cc：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        <TextBlock Grid.Row="3" Text="Bcc：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-        <TextBlock Grid.Row="4" Text="本文：" HorizontalAlignment="Center" FontSize="20" Margin="10"/>
+        <TextBlock Grid.Row="0" Text="件名：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+        <TextBlock Grid.Row="1" Text="To：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+        <TextBlock Grid.Row="2" Text="Cc：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+        <TextBlock Grid.Row="3" Text="Bcc：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+        <TextBlock Grid.Row="4" Text="本文：" HorizontalAlignment="Center" FontSize="15" Margin="5"/>
         <!--テキスト-->
         <TextBox x:Name="tbTitle" Grid.Column="1" Margin="5"/>
         <TextBox x:Name="tbTo" Grid.Column="1" Grid.Row="1" Margin="5"/>
@@ -34,8 +34,9 @@
         <TextBox x:Name="tbBcc" Grid.Column="1" Grid.Row="3" Margin="5"/>
         <TextBox x:Name="tbBody" Grid.Column="1" Grid.Row="4" Margin="5"/>
         <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btSend" Content="送信" HorizontalAlignment="Right" Margin="10" Width="100" Click="btSend_Click"/>
-            <Button x:Name="btCancel" Content="キャンセル" HorizontalAlignment="Right" Margin="10" Width="100" Click="btCancel_Click" />
+            <Button x:Name="btCancel" Content="キャンセル" HorizontalAlignment="Right" Margin="5" Width="100" Click="btCancel_Click" />
+            <Button x:Name="btSend" Content="送信" HorizontalAlignment="Right" Margin="5" Width="100" Click="btSend_Click"/>
         </StackPanel>
+        <Button x:Name="btConfig" Grid.Row="5" Margin="8" Content="設定" Click="btConfig_Click"/>
     </Grid>
 </Window>
