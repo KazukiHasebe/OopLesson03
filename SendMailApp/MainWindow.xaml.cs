@@ -32,6 +32,13 @@ namespace SendMailApp
             sc.SendCompleted += Sc_SendCompleted;
         }
 
+        //設定画面表示
+        private static void ConfigWindowShow()
+        {
+            ConfigWindow configWindow = new ConfigWindow(); //設定画面のインスタンスを生成
+            configWindow.ShowDialog();  //表示
+        }
+
         //送信完了イベント
         private void Sc_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
@@ -85,11 +92,10 @@ namespace SendMailApp
             }
         }
 
-        //設定画面表示
+        //設定ボタンイベントハンドラ
         private void btConfig_Click(object sender, RoutedEventArgs e)
         {
-            ConfigWindow configWindow = new ConfigWindow(); //設定画面のインスタンスを生成
-            configWindow.ShowDialog();  //表示
+            ConfigWindowShow();
         }
 
         //メインウィンドウがロードされるタイミングで呼び出される
@@ -98,6 +104,10 @@ namespace SendMailApp
             try
             {
                 Config.GetInstance().DeSerialise();
+            }
+            catch (FileNotFoundException)
+            {
+                ConfigWindowShow(); //ファイルが存在しないので設定画面を先に表示
             }
             catch (Exception ex)
             {

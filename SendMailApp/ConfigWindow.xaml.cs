@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -50,14 +51,34 @@ namespace SendMailApp
         //OKボタン
         private void btOk_Click(object sender, RoutedEventArgs e)
         {
-            btApply_Click(sender, e);   //更新処理を呼び出す
-            this.Close();
+            if (tbSmtp.Text == "" || tbPort.Text == "" || tbPassWord.Password == "" ||
+                tbSender.Text == "" || tbUserName.Text == "")
+            {
+                AlertMessage();
+            }
+            else
+            {
+                btApply_Click(sender, e);   //更新処理を呼び出す
+                this.Close();
+            }
         }
 
         //キャンセルボタン
         private void btCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (DataCheck())
+            {
+                AlertMessage();
+            }
+            else if (ComparisionData())
+            {
+                SaveMessage(sender, e);
+            }
+            else
+            {
+                this.Close();
+            }
+            
         }
 
         //設定画面
@@ -70,6 +91,60 @@ namespace SendMailApp
             tbPassWord.Password = cf.PassWord;
             tbPort.Text = cf.Port.ToString();
             cbSsl.IsChecked = cf.Ssl;
+        }
+
+        private bool DataCheck()
+        {
+            if (tbSmtp.Text == "" || tbPort.Text == "" || tbPassWord.Password == "" ||
+                tbSender.Text == "" || tbUserName.Text == "")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void AlertMessage()
+        {
+            System.Windows.Forms.MessageBox.Show
+                    ("すべての項目を入力してください。", "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+        }
+
+        private bool ComparisionData()
+        {
+            Config cf = Config.GetInstance();
+            if (cf.Smtp != tbSmtp.Text || cf.MailAddress != tbSender.Text || 
+                cf.PassWord != tbPassWord.Password || cf.Port != int.Parse(tbPort.Text) ||
+                cf.MailAddress != tbUserName.Text)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void SaveMessage(object sender, RoutedEventArgs e)
+        {
+            DialogResult result = System.Windows.Forms.MessageBox.Show("ファイルを上書きしますか？","質問",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Exclamation,
+                MessageBoxDefaultButton.Button2);
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                btApply_Click(sender, e);
+                this.Close();
+            }
+            else if (result == System.Windows.Forms.DialogResult.Cancel)
+            {
+                this.Close();
+            }
         }
     }
 }
