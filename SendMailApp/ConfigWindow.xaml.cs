@@ -40,19 +40,25 @@ namespace SendMailApp
 
         private void btApply_Click(object sender, RoutedEventArgs e)
         {
-            Config.GetInstance().UpdateStatus(
+            if (DataCheck())
+            {
+                AlertMessage();
+            }
+            else
+            {
+                Config.GetInstance().UpdateStatus(
                 tbSmtp.Text,
                 tbSender.Text,
                 tbPassWord.Password,
                 int.Parse(tbPort.Text),
-                cbSsl.IsChecked ?? false ); //更新処理を呼び出す
+                cbSsl.IsChecked ?? false); //更新処理を呼び出す
+            }
         }
 
         //OKボタン
         private void btOk_Click(object sender, RoutedEventArgs e)
         {
-            if (tbSmtp.Text == "" || tbPort.Text == "" || tbPassWord.Password == "" ||
-                tbSender.Text == "" || tbUserName.Text == "")
+            if (DataCheck())
             {
                 AlertMessage();
             }
@@ -139,10 +145,6 @@ namespace SendMailApp
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 btApply_Click(sender, e);
-                this.Close();
-            }
-            else if (result == System.Windows.Forms.DialogResult.Cancel)
-            {
                 this.Close();
             }
         }

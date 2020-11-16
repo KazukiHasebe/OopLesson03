@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SendMailApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="MainWindow" Height="400" Width="700" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid Background="AliceBlue">
         <!--行-->
         <Grid.RowDefinitions>
@@ -19,7 +19,9 @@
         <!--列-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="90*"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="40*"/>
         </Grid.ColumnDefinitions>
         <!--ラベル-->
         <TextBlock Grid.Row="0" Text="件名：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
@@ -27,16 +29,20 @@
         <TextBlock Grid.Row="2" Text="Cc：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
         <TextBlock Grid.Row="3" Text="Bcc：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
         <TextBlock Grid.Row="4" Text="本文：" HorizontalAlignment="Center" FontSize="15" Margin="5"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="添付：" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
         <!--テキスト-->
         <TextBox x:Name="tbTitle" Grid.Column="1" Margin="5"/>
         <TextBox x:Name="tbTo" Grid.Column="1" Grid.Row="1" Margin="5"/>
         <TextBox x:Name="tbCc" Grid.Column="1" Grid.Row="2" Margin="5"/>
         <TextBox x:Name="tbBcc" Grid.Column="1" Grid.Row="3" Margin="5"/>
-        <TextBox x:Name="tbBody" Grid.Column="1" Grid.Row="4" Margin="5"/>
-        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+        <TextBox x:Name="tbBody" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Margin="5"/>
+        <StackPanel Grid.Column="3" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="btCancel" Content="キャンセル" HorizontalAlignment="Right" Margin="5" Width="100" Click="btCancel_Click" />
             <Button x:Name="btSend" Content="送信" HorizontalAlignment="Right" Margin="5" Width="100" Click="btSend_Click"/>
         </StackPanel>
         <Button x:Name="btConfig" Grid.Row="5" Margin="8" Content="設定" Click="btConfig_Click"/>
+        <Button x:Name="btAdd" Grid.Column="2" Grid.Row="2" Margin="5" Content="追加" Click="btAdd_Click"/>
+        <Button x:Name="btDelete" Grid.Column="2" Grid.Row="3" Margin="5" Content="削除" Click="btDelete_Click"/>
+        <ListBox x:Name="lbBox" Grid.Column="3" Grid.RowSpan="4" Margin="5"/>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -44,11 +46,11 @@ namespace SendMailApp
         {
             if (e.Cancelled)
             {
-                MessageBox.Show("送信はキャンセルされました。");
+                System.Windows.MessageBox.Show("送信はキャンセルされました。");
             }
             else
             {
-                MessageBox.Show(e.Error?.Message ?? "送信完了！");
+                System.Windows.MessageBox.Show(e.Error?.Message ?? "送信完了！");
             }
         }
 
@@ -69,6 +71,15 @@ namespace SendMailApp
                     msg.Bcc.Add(tbBcc.Text);
                 }
 
+                if (lbBox.Items != null)
+                {
+                    foreach (var item in lbBox.Items)
+                    {
+                        Attachment attachment = new Attachment(item.ToString());
+                        msg.Attachments.Add(attachment);
+                    }
+                }
+                
                 sc.Host = cf.Smtp; //SMTPサーバの設定
                 sc.Port = cf.Port;
                 sc.EnableSsl = cf.Ssl;
@@ -79,7 +90,7 @@ namespace SendMailApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
@@ -111,7 +122,7 @@ namespace SendMailApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
@@ -123,7 +134,24 @@ namespace SendMailApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btAdd_Click(object sender, RoutedEventArgs e)
+        {
+            var fod = new OpenFileDialog();
+            if (fod.ShowDialog() == true)
+            {
+                lbBox.Items.Add(fod.FileName);
+            }
+        }
+
+        private void btDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbBox.SelectedIndex != -1)
+            {
+                lbBox.Items.RemoveAt(lbBox.SelectedIndex);
             }
         }
     }
